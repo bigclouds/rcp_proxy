@@ -97,6 +97,7 @@ def new_clients(sock_in):
 
 local_addr, local_port, remote_addr, remote_port, verbose = parse_cmd()
 sock_main = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock_main.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
 sock_main.bind((local_addr, local_port))
 sock_main.listen(5)
 log('Listening at %s:%d ...' % (local_addr, local_port))
