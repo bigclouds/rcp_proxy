@@ -5,7 +5,12 @@
 
 from __future__ import with_statement
 import socket, re, sys, threading
+import signal
 from optparse import OptionParser
+
+def myHandler(signum, frame):
+        print("Now, it's the time")
+        exit()
 
 def parse_cmd():
 	re_ip_port = r'^(?P<addr>.+:)?(?P<port>[0-9]{1,5})$'
@@ -95,6 +100,8 @@ sock_main = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock_main.bind((local_addr, local_port))
 sock_main.listen(5)
 log('Listening at %s:%d ...' % (local_addr, local_port))
+signal.signal(signal.SIGTERM, myHandler)
+signal.signal(signal.SIGINT, myHandler)
 
 while True:
 	try:
